@@ -1,22 +1,26 @@
-
 import { useState, useEffect } from 'react';
 import Header from '../components/Header';
 import IntroAnimation from '../components/IntroAnimation';
 import AboutSection from '../components/AboutSection';
-import WebDevSection from '../components/WebDevSection';
-import MinecraftSection from '../components/MinecraftSection';
 import DiscordSection from '../components/DiscordSection';
-import AppDevSection from '../components/AppDevSection';
 import { ThemeProvider } from '../context/ThemeContext';
 import { ArrowUp } from 'lucide-react';
+import WelcomeAnimation from '../components/WelcomeAnimation';
+import BackgroundMusic from '../components/BackgroundMusic';
 
 const Index = () => {
   const [showIntro, setShowIntro] = useState(true);
+  const [showWelcome, setShowWelcome] = useState(true);
   const [showScrollTop, setShowScrollTop] = useState(false);
 
   const handleAnimationComplete = () => {
     setShowIntro(false);
+    setShowWelcome(true);
     document.body.style.overflow = 'auto'; // Enable scrolling
+  };
+
+  const handleWelcomeComplete = () => {
+    setShowWelcome(false);
   };
 
   useEffect(() => {
@@ -45,6 +49,7 @@ const Index = () => {
   return (
     <ThemeProvider>
       {showIntro && <IntroAnimation onAnimationComplete={handleAnimationComplete} />}
+      {!showIntro && showWelcome && <WelcomeAnimation onAnimationComplete={handleWelcomeComplete} />}
 
       <div className="min-h-screen dark:bg-hiro-black bg-gradient-to-b from-white to-gray-100 dark:from-hiro-black dark:to-hiro-dark-gray">
         <Header />
@@ -52,13 +57,7 @@ const Index = () => {
         <main id="home" className="pt-20">
           <AboutSection />
           <div className="section-separator" />
-          <WebDevSection />
-          <div className="section-separator" />
-          <MinecraftSection />
-          <div className="section-separator" />
           <DiscordSection />
-          <div className="section-separator" />
-          <AppDevSection />
         </main>
 
         <footer className="py-10 border-t border-white/5">
@@ -83,6 +82,8 @@ const Index = () => {
           </button>
         )}
       </div>
+      
+      <BackgroundMusic />
     </ThemeProvider>
   );
 };
