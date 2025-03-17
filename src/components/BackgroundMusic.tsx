@@ -7,23 +7,25 @@ const BackgroundMusic = () => {
   const [isMuted, setIsMuted] = useState(false);
 
   useEffect(() => {
+    // Define playAudio function outside the conditional block
+    const playAudio = () => {
+      if (audioRef.current) {
+        audioRef.current.play().catch(error => {
+          console.error("Audio play failed:", error);
+        });
+      }
+      document.removeEventListener('click', playAudio);
+    };
+
     // Start playing the audio when component mounts
     if (audioRef.current) {
       audioRef.current.volume = 0.15; // Reduce initial volume slightly for better UX
       
       // Need to play it on user interaction due to browser autoplay policies
-      const playAudio = () => {
-        if (audioRef.current) {
-          audioRef.current.play().catch(error => {
-            console.error("Audio play failed:", error);
-          });
-        }
-        document.removeEventListener('click', playAudio);
-      };
-      
       document.addEventListener('click', playAudio);
     }
     
+    // Proper cleanup function that has access to playAudio
     return () => {
       document.removeEventListener('click', playAudio);
     };
