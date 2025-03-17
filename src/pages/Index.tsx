@@ -1,13 +1,89 @@
-// Update this page (the content is just a fallback if you fail to update the page)
+
+import { useState, useEffect } from 'react';
+import Header from '../components/Header';
+import IntroAnimation from '../components/IntroAnimation';
+import AboutSection from '../components/AboutSection';
+import WebDevSection from '../components/WebDevSection';
+import MinecraftSection from '../components/MinecraftSection';
+import DiscordSection from '../components/DiscordSection';
+import AppDevSection from '../components/AppDevSection';
+import { ThemeProvider } from '../context/ThemeContext';
+import { ArrowUp } from 'lucide-react';
 
 const Index = () => {
+  const [showIntro, setShowIntro] = useState(true);
+  const [showScrollTop, setShowScrollTop] = useState(false);
+
+  const handleAnimationComplete = () => {
+    setShowIntro(false);
+    document.body.style.overflow = 'auto'; // Enable scrolling
+  };
+
+  useEffect(() => {
+    // Disable scrolling during intro animation
+    document.body.style.overflow = 'hidden';
+
+    const handleScroll = () => {
+      if (window.scrollY > 500) {
+        setShowScrollTop(true);
+      } else {
+        setShowScrollTop(false);
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
+  };
+
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      <div className="text-center">
-        <h1 className="text-4xl font-bold mb-4">Welcome to Your Blank App</h1>
-        <p className="text-xl text-gray-600">Start building your amazing project here!</p>
+    <ThemeProvider>
+      {showIntro && <IntroAnimation onAnimationComplete={handleAnimationComplete} />}
+
+      <div className="min-h-screen dark:bg-hiro-black bg-gradient-to-b from-white to-gray-100 dark:from-hiro-black dark:to-hiro-dark-gray">
+        <Header />
+        
+        <main id="home" className="pt-20">
+          <AboutSection />
+          <div className="section-separator" />
+          <WebDevSection />
+          <div className="section-separator" />
+          <MinecraftSection />
+          <div className="section-separator" />
+          <DiscordSection />
+          <div className="section-separator" />
+          <AppDevSection />
+        </main>
+
+        <footer className="py-10 border-t border-white/5">
+          <div className="hiro-container text-center">
+            <p className="text-gradient font-bold text-xl mb-2">Hiro</p>
+            <p className="text-muted-foreground">
+              Web Developer | Minecraft Developer | Discord Bot Developer
+            </p>
+            <div className="mt-6 text-sm text-muted-foreground">
+              © {new Date().getFullYear()} Hiro. All rights reserved.
+            </div>
+          </div>
+        </footer>
+
+        {showScrollTop && (
+          <button
+            onClick={scrollToTop}
+            className="fixed bottom-8 right-8 p-3 rounded-full bg-hiro-purple text-white shadow-lg hover:bg-hiro-dark-purple transition-all duration-300 animate-fade-in"
+            aria-label="Scroll to top"
+          >
+            <ArrowUp size={20} />
+          </button>
+        )}
       </div>
-    </div>
+    </ThemeProvider>
   );
 };
 
