@@ -1,3 +1,4 @@
+
 import { useState, useEffect, lazy, Suspense } from 'react';
 import Header from '../components/Header';
 import IntroAnimation from '../components/IntroAnimation';
@@ -6,7 +7,6 @@ import DiscordSection from '../components/DiscordSection';
 import LanguagesSection from '../components/LanguagesSection';
 import { ThemeProvider } from '../context/ThemeContext';
 import { ArrowUp } from 'lucide-react';
-import WelcomeAnimation from '../components/WelcomeAnimation';
 import { Skeleton } from '@/components/ui/skeleton';
 
 // Loading fallback
@@ -25,18 +25,12 @@ const LoadingFallback = () => (
 
 const Index = () => {
   const [showIntro, setShowIntro] = useState(true);
-  const [showWelcome, setShowWelcome] = useState(true);
   const [showScrollTop, setShowScrollTop] = useState(false);
   const [isLoaded, setIsLoaded] = useState(false);
 
   const handleAnimationComplete = () => {
     setShowIntro(false);
-    setShowWelcome(true);
     document.body.style.overflow = 'auto'; // Enable scrolling
-  };
-
-  const handleWelcomeComplete = () => {
-    setShowWelcome(false);
   };
 
   useEffect(() => {
@@ -83,7 +77,6 @@ const Index = () => {
   return (
     <ThemeProvider>
       {showIntro && <IntroAnimation onAnimationComplete={handleAnimationComplete} />}
-      {!showIntro && showWelcome && <WelcomeAnimation onAnimationComplete={handleWelcomeComplete} />}
 
       <div className="min-h-screen dark:bg-gradient-to-b dark:from-hiro-black dark:to-hiro-dark-gray bg-gradient-to-b from-white to-gray-100">
         <Header />
