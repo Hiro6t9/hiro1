@@ -193,7 +193,7 @@ const DiscordSection = () => {
                   <div key={skill.name} className={`${isVisible ? 'animate-slide-up' : 'opacity-0'}`} style={{ animationDelay: `${400 + index * 100}ms` }}>
                     <div className="flex justify-between mb-2">
                       <span className="font-medium">{skill.name}</span>
-                      <span className="text-hiro-light-purple">{skill.level}%</span>
+                      <span className="text-hiro-light-purple">{skill.value}%</span>
                     </div>
                     <div className="h-2 bg-white/5 rounded-full overflow-hidden">
                       <div 
