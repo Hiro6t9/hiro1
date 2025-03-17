@@ -1,4 +1,3 @@
-
 import { useState, useEffect, lazy, Suspense } from 'react';
 import Header from '../components/Header';
 import IntroAnimation from '../components/IntroAnimation';
@@ -8,7 +7,6 @@ import LanguagesSection from '../components/LanguagesSection';
 import { ThemeProvider } from '../context/ThemeContext';
 import { ArrowUp } from 'lucide-react';
 import WelcomeAnimation from '../components/WelcomeAnimation';
-import BackgroundMusic from '../components/BackgroundMusic';
 import { Skeleton } from '@/components/ui/skeleton';
 
 // Loading fallback
@@ -122,8 +120,6 @@ const Index = () => {
           </button>
         )}
       </div>
-      
-      <BackgroundMusic />
     </ThemeProvider>
   );
 };
